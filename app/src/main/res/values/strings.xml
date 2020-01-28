@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">DialogFragmentFragment</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="compose_dial_fragment_title">Compose your message :</string>
+    <string name="open_dialog">Open Dialog</string>
+    <string name="dialog_fragment_activity">Dialog Fragment Activity</string>
+    <string name="please_input_your_message">Please input your message …</string>
 </resources>
