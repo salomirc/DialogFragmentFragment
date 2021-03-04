@@ -15,6 +15,11 @@ import kotlinx.android.synthetic.main.fragment_custom_dialog.*
 private const val TAG : String = "CustomDialogFragment"
 
 class CustomDialogFragment : DialogFragment() {
+
+    interface OnFragmentInteractionListener {
+        fun onFragmentInteraction(txt: String)
+    }
+
     private lateinit var fgmView: View
     private var listener: OnFragmentInteractionListener? = null
 
@@ -28,17 +33,18 @@ class CustomDialogFragment : DialogFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT)
-        {
-            dialog?.window?.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-        }
-        else {
-            dialog?.window?.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
-        }
+        dialog?.window?.setLayout(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            } else {
+                LinearLayout.LayoutParams.MATCH_PARENT
+            }
+        )
 
         cancelButton.setOnClickListener {
             Log.d(TAG, "onClick: closing dialog")
-            dialog!!.dismiss()
+            dialog?.dismiss()
         }
 
         okButton.setOnClickListener {
@@ -47,8 +53,8 @@ class CustomDialogFragment : DialogFragment() {
             {
                 listener?.onFragmentInteraction(inputTxt)
             }
-
-            dialog!!.dismiss()
+            val x = context
+            dialog?.dismiss()
         }
     }
 
@@ -65,9 +71,4 @@ class CustomDialogFragment : DialogFragment() {
         super.onDetach()
         listener = null
     }
-
-    interface OnFragmentInteractionListener {
-        fun onFragmentInteraction(txt: String)
-    }
-
 }

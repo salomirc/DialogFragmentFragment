@@ -15,6 +15,11 @@ private const val TAG : String = "MainFragmentActivity"
 private const val MESSAGE_KEY : String = "messageTextView"
 
 class MainFragment : Fragment(), CustomDialogFragment.OnFragmentInteractionListener {
+
+    interface OnMainFragmentInteractionListener {
+        fun onMainFragmentInteraction(txt: String)
+    }
+
     private lateinit var fgmView: View
     private var listenerMain: OnMainFragmentInteractionListener? = null
 
@@ -45,12 +50,8 @@ class MainFragment : Fragment(), CustomDialogFragment.OnFragmentInteractionListe
 
             val dialog = CustomDialogFragment()
             dialog.setTargetFragment(this, 100)
-            dialog.show(fragmentManager!!, "MyCustomDialog")
+            fragmentManager?.let { fragmentManager -> dialog.show(fragmentManager, "MyCustomDialog") }
         }
-    }
-
-    fun onButtonPressed(uri: Uri) {
-        listenerMain?.onMainFragmentInteraction(uri)
     }
 
     override fun onAttach(context: Context) {
@@ -67,12 +68,9 @@ class MainFragment : Fragment(), CustomDialogFragment.OnFragmentInteractionListe
         listenerMain = null
     }
 
-    interface OnMainFragmentInteractionListener {
-        fun onMainFragmentInteraction(uri: Uri)
-    }
-
     override fun onFragmentInteraction(txt: String) {
         messageTextView.text = txt
+        listenerMain?.onMainFragmentInteraction(txt)
     }
 
 }
